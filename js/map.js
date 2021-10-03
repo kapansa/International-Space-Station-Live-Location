@@ -15,3 +15,23 @@ function CreateISSMap() {
   ).addTo(mymap);
   
 }
+
+async function SetInitialLocation() {
+  const response = await fetch(url_api);
+  const data = await response.json();
+  const { latitude, longitude } = data;
+  mymap.setView([latitude, longitude], 3);
+}
+
+async function GetISS() {
+  const response = await fetch(url_api);
+  const data = await response.json();
+  const { latitude, longitude, altitude, velocity } = data;
+
+  document.getElementById("latitude").innerHTML = latitude.toFixed(2);
+  document.getElementById("longitude").innerHTML = longitude.toFixed(2);
+  document.getElementById("altitude").innerHTML = altitude.toFixed(2) + " Km";
+  document.getElementById("velocity").innerHTML = velocity.toFixed(2) + " Km/hr";
+
+  marker.setLatLng([latitude, longitude]);
+}
